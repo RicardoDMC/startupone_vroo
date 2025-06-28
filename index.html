@@ -223,18 +223,18 @@
                     <div class="max-w-3xl mx-auto bg-white text-gray-800 rounded-2xl shadow-2xl flex flex-col">
                         <!-- Abas de Navegação -->
                         <div class="flex border-b border-gray-200">
-                            <button class="tab-btn flex-1 p-4 font-semibold text-lg border-b-4 border-transparent transition active" data-tab="consultor-ai">
-                                Falar com Consultor AI
-                            </button>
-                            <button class="tab-btn flex-1 p-4 font-semibold text-lg border-b-4 border-transparent transition" data-tab="filtro-manual">
+                            <button class="tab-btn flex-1 p-4 font-semibold text-lg border-b-4 border-transparent transition active" data-tab="filtro-manual">
                                 Usar Filtro Manual
+                            </button>
+                            <button class="tab-btn flex-1 p-4 font-semibold text-lg border-b-4 border-transparent transition" data-tab="consultor-ai">
+                                Falar com Consultor AI
                             </button>
                         </div>
 
                         <!-- Conteúdo das Abas -->
                         <div class="p-2 sm:p-6" style="min-height: 600px;">
                             <!-- ABA 1: CONSULTOR AI -->
-                            <div id="tab-consultor-ai" class="tab-content active">
+                            <div id="tab-consultor-ai" class="tab-content hidden">
                                 <div class="flex flex-col h-full" style="height: 560px;">
                                     <div id="chat-window" class="flex-1 space-y-4 overflow-y-auto p-4">
                                         <!-- Mensagens do chat -->
@@ -254,7 +254,7 @@
                             </div>
 
                             <!-- ABA 2: FILTRO MANUAL -->
-                            <div id="tab-filtro-manual" class="tab-content hidden">
+                            <div id="tab-filtro-manual" class="tab-content active">
                                 <div class="p-4 space-y-6">
                                     <div>
                                         <label for="budget" class="block font-semibold mb-2">Orçamento: <span class="font-bold text-[#6FAF85]">R$ <span id="budgetValue">100.000</span></span></label>
