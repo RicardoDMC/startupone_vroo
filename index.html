@@ -13,12 +13,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <!-- Favicon (Ícone da Aba) -->
     <link rel="icon" href="logo.png" type="image/png">
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
+            background-color: #F8F7F4; /* Fundo suave */
         }
         html {
             scroll-behavior: smooth;
@@ -61,6 +65,37 @@
             border-bottom-color: #6FAF85; /* Cor do tema (verde) */
             color: #6FAF85;
         }
+        .stat-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .competitor-col {
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .competitor-col.active {
+            border-color: #6FAF85;
+            background-color: #F0F5F4;
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
@@ -76,14 +111,15 @@
         </div>
         <nav class="mt-5">
             <a href="#home" class="nav-link block py-3 px-5 hover:bg-gray-700">Início</a>
-            <a href="#resumo-executivo" class="nav-link block py-3 px-5 hover:bg-gray-700">Resumo Executivo</a>
-            <a href="#apresentacao-startup" class="nav-link block py-3 px-5 hover:bg-gray-700">A Startup</a>
+            <a href="#por-que-contratar" class="nav-link block py-3 px-5 hover:bg-gray-700">Por que contratar?</a>
+            <a href="#apresentacao-startup" class="nav-link block py-3 px-5 hover:bg-gray-700">A Startup: Quem Somos?</a>
+            <a href="#validacao" class="nav-link block py-3 px-5 hover:bg-gray-700">Validação e Preços</a>
             <a href="#apresentacao-grupo" class="nav-link block py-3 px-5 hover:bg-gray-700">O Grupo</a>
         </nav>
     </aside>
 
     <!-- CABEÇALHO E NAVEGAÇÃO -->
-    <header class="bg-white shadow-md sticky top-0 z-20">
+    <header class="bg-white/80 backdrop-blur-sm shadow-md sticky top-0 z-20">
         <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Menu Hamburguer -->
             <button id="open-sidebar" class="text-gray-700 focus:outline-none">
@@ -290,41 +326,114 @@
             </section>
         </main>
 
-        <!-- PÁGINA RESUMO EXECUTIVO -->
-        <section id="page-resumo-executivo" class="page container mx-auto px-6 py-12">
+        <!-- PÁGINA POR QUE CONTRATAR? -->
+        <section id="page-por-que-contratar" class="page container mx-auto px-6 py-12">
             <div class="bg-white p-8 rounded-lg shadow-lg page-content overflow-y-auto" style="max-height: 80vh;">
-                <h1 class="text-3xl font-bold mb-6 border-b pb-4">Resumo Executivo</h1>
-                <div class="space-y-6 text-lg">
-                    <div>
-                        <h2 class="text-2xl font-semibold text-[#6FAF85]">Mercado</h2>
-                        <p>O mercado automotivo brasileiro, abrangendo veículos novos, seminovos e usados. É um setor dinâmico com milhões de transações anuais, caracterizado por um consumidor que busca cada vez mais informações seguras e imparciais para tomar decisões de compra de alto valor.</p>
+                <h1 class="text-3xl font-bold mb-8 border-b pb-4">Por que contratar a Vroo?</h1>
+                
+                <!-- O Problema -->
+                <div class="mb-12">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-[#6FAF85] mb-4">A Jornada de Compra: Um Campo Minado</h2>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Comprar um carro, especialmente usado, é um processo carregado de ansiedade e incerteza. O comprador se sente em desvantagem, enfrentando um labirinto de desafios técnicos e o medo constante de fazer um mau negócio.</p>
                     </div>
-                    <div>
-                        <h2 class="text-2xl font-semibold text-[#6FAF85]">Cliente</h2>
-                        <p>Pessoas físicas com intenção de adquirir um veículo (novo ou usado) nos próximos anos, que se sentem inseguras ou sobrecarregadas com a quantidade de informações técnicas e comerciais. Valorizam segurança, custo-benefício e desejam fazer um investimento consciente, evitando problemas futuros.</p>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="stat-card fade-in text-center">
+                            <h3 class="text-xl font-bold mb-2">Ansiedade e Desconfiança</h3>
+                            <p class="text-gray-600">O medo de ser enganado e a crença de que vendedores escondem problemas geram um enorme desgaste emocional.</p>
+                        </div>
+                        <div class="stat-card fade-in text-center">
+                            <h3 class="text-xl font-bold mb-2">Barreira de Conhecimento</h3>
+                            <p class="text-gray-600">Compradores leigos não sabem o que avaliar. Dúvidas sobre mecânica, estrutura e documentação são intimidantes.</p>
+                        </div>
+                        <div class="stat-card fade-in text-center">
+                            <h3 class="text-xl font-bold mb-2">Alto Risco Financeiro</h3>
+                            <p class="text-gray-600">Um carro é um dos maiores investimentos. Comprar um veículo com problemas ocultos pode levar a prejuízos que comprometem o orçamento.</p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 class="text-2xl font-semibold text-[#6FAF85]">Problema</h2>
-                        <p>A jornada de compra de um carro é complexa e gera ansiedade. O consumidor enfrenta um excesso de informações desencontradas, falta de conhecimento técnico para avaliar opções e a desconfiança em vendedores, cujo interesse principal é a venda e não a melhor escolha para o cliente. Isso leva a decisões ruins, arrependimentos e prejuízos financeiros.</p>
+                </div>
+
+                <!-- O Mercado -->
+                <div class="mb-12">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-[#6FAF85] mb-4">Uma Oportunidade Gigante</h2>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">A dor do consumidor está inserida em um mercado vasto e aquecido, revelando uma demanda latente por segurança e orientação técnica.</p>
                     </div>
-                    <div>
-                        <h2 class="text-2xl font-semibold text-[#6FAF85]">Solução</h2>
-                        <p>A Vroo é uma plataforma de consultoria técnica automotiva, imparcial e personalizada. Através de tecnologia (incluindo IA) e especialistas humanos, traduzimos as necessidades do cliente em recomendações de veículos que se encaixam perfeitamente em seu perfil e orçamento, garantindo uma decisão de compra segura e informada.</p>
+                    <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="fade-in">
+                            <h3 class="text-2xl font-bold mb-6 text-center lg:text-left">O Funil do Mercado Endereçável (Anual)</h3>
+                            <div class="relative mx-auto" style="max-width: 450px; height: 350px;">
+                                <canvas id="marketChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 fade-in">
+                            <div class="stat-card text-center">
+                                <p class="text-4xl md:text-5xl font-extrabold text-[#6FAF85]" data-stat="83">%</p>
+                                <p class="font-semibold text-gray-700 mt-2">Intenção de Compra</p>
+                            </div>
+                            <div class="stat-card text-center">
+                                <p class="text-4xl md:text-5xl font-extrabold text-[#6FAF85]" data-stat="38">%</p>
+                                <p class="font-semibold text-gray-700 mt-2">Valorizam Suporte</p>
+                            </div>
+                            <div class="stat-card text-center">
+                                <p class="text-4xl md:text-5xl font-extrabold text-[#6FAF85]" data-stat="67">%</p>
+                                <p class="font-semibold text-gray-700 mt-2">Dispostos a Pagar</p>
+                            </div>
+                            <div class="stat-card text-center">
+                                <p class="text-4xl md:text-5xl font-extrabold text-[#6FAF85]" data-stat="7.9">M</p>
+                                <p class="font-semibold text-gray-700 mt-2">Mercado Potencial (TAM)</p>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <h2 class="text-2xl font-semibold text-[#6FAF85]">Modelo de Negócio</h2>
-                        <p>Atuamos como intermediários focados na decisão. Nosso serviço de consultoria inicial é gratuito. A monetização ocorre através de uma pequena comissão (0,3%) paga por parceiros (marketplaces, concessionárias) apenas quando o cliente efetua a compra através de um de nossos canais indicados, garantindo alinhamento total com o interesse do consumidor.</p>
+                </div>
+
+                <!-- Cenário Competitivo -->
+                <div class="mb-12">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-[#6FAF85] mb-4">Cenário Competitivo</h2>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Entenda como a Vroo se posiciona de forma única em um mercado com diferentes soluções. Clique nas colunas para comparar.</p>
                     </div>
-                    <div>
-                        <h2 class="text-2xl font-semibold text-[#6FAF85]">Concorrentes</h2>
-                        <p>Kavak, InstaCarro, Carflix, Volanty. Esses players são concorrentes indiretos, pois focam na transação e logística da venda, não na consultoria isenta. Concorrentes diretos seriam consultores automotivos independentes, que não possuem nossa escala e tecnologia.</p>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-semibold text-[#6FAF85]">Benchmarks</h2>
-                        <p><strong>NerdWallet (Finanças):</strong> Pela forma como simplificam decisões complexas. <strong>Zappos (E-commerce):</strong> Pelo foco obsessivo na satisfação e atendimento ao cliente. <strong>Dr. Consulta (Saúde):</strong> Pelo modelo de tornar serviços especializados mais acessíveis.</p>
-                    </div>
-                    <div class="pt-4 border-t">
-                        <p><span class="font-semibold">Palavras-chave:</span> 1. Consultoria Automotiva 2. Compra de Carro 3. Carro Ideal 4. Mercado Automotivo</p>
+                    <div class="overflow-x-auto fade-in">
+                        <div id="competitor-table" class="min-w-full bg-white rounded-lg shadow-lg">
+                            <div class="grid grid-cols-4">
+                                 <div class="p-4 font-bold text-gray-700 bg-gray-50 rounded-tl-lg">Característica</div>
+                                 <div class="competitor-col p-4 font-bold text-center text-gray-700 bg-gray-50">Vroo</div>
+                                 <div class="competitor-col p-4 font-bold text-center text-gray-700 bg-gray-50">Marketplaces</div>
+                                 <div class="competitor-col p-4 font-bold text-center text-gray-700 bg-gray-50 rounded-tr-lg">Mecânico Informal</div>
+                            </div>
+                            <div class="divide-y divide-gray-200">
+                                 <div class="grid grid-cols-4 items-center">
+                                     <div class="p-4 font-medium">Alinhamento c/ Cliente</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center active"><span class="font-bold text-green-600">Total e Inerente</span></div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center"><span class="font-bold text-red-600">Conflitante</span></div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center"><span class="text-yellow-600">Subjetivo</span></div>
+                                 </div>
+                                 <div class="grid grid-cols-4 items-center bg-gray-50/50">
+                                     <div class="p-4 font-medium">Modelo de Receita</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center active">Taxa Fixa (Fee-Based)</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center">Margem na Venda</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center">Pagamento Informal</div>
+                                 </div>
+                                 <div class="grid grid-cols-4 items-center">
+                                     <div class="p-4 font-medium">Independência</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center active"><span class="font-bold text-green-600">Total</span></div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center"><span class="font-bold text-red-600">Nenhuma</span></div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center">Total, mas limitado</div>
+                                 </div>
+                                 <div class="grid grid-cols-4 items-center bg-gray-50/50">
+                                     <div class="p-4 font-medium">Relatório Formal</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center active">Sim, detalhado</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center">Laudo Próprio</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center">Não</div>
+                                 </div>
+                                  <div class="grid grid-cols-4 items-center">
+                                     <div class="p-4 font-medium rounded-bl-lg">Vulnerabilidade Principal</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center active">Educar o mercado sobre o valor do serviço.</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center">Conflito de interesses fundamental.</div>
+                                     <div class="competitor-col p-4 text-center h-full flex items-center justify-center rounded-br-lg">Falta de padrão e disponibilidade.</div>
+                                 </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -333,7 +442,7 @@
         <!-- PÁGINA APRESENTAÇÃO DA STARTUP -->
         <section id="page-apresentacao-startup" class="page container mx-auto px-6 py-12">
             <div class="bg-white p-8 rounded-lg shadow-lg page-content overflow-y-auto" style="max-height: 80vh;">
-                <h1 class="text-3xl font-bold mb-6 border-b pb-4">Apresentação da Startup: Vroo</h1>
+                <h1 class="text-3xl font-bold mb-6 border-b pb-4">A Startup: Quem Somos?</h1>
                  <div class="space-y-8 text-lg">
                     <div>
                         <h2 class="text-2xl font-semibold text-[#6FAF85] mb-2">Identificação</h2>
@@ -350,6 +459,64 @@
                     <div>
                         <h2 class="text-2xl font-semibold text-[#6FAF85] mb-2">Vetores Estratégicos</h2>
                         <p>Nossa estratégia se baseia em três pilares: <strong>Inovação Tecnológica</strong>, com investimento contínuo em nossa plataforma e IA; <strong>Parcerias Estratégicas</strong> com os maiores players do setor para ampliar nosso alcance; e <strong>Excelência no Atendimento</strong>, para construir uma marca reconhecida pela qualidade e personalização.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PÁGINA DE VALIDAÇÃO E PREÇOS -->
+        <section id="page-validacao" class="page container mx-auto px-6 py-12">
+             <div class="bg-white p-8 rounded-lg shadow-lg page-content overflow-y-auto" style="max-height: 80vh;">
+                <div class="text-center mb-12">
+                    <h1 class="text-3xl md:text-4xl font-bold text-[#6FAF85] mb-4">Validação e Pacotes de Serviço</h1>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Para garantir que a Vroo atenda às suas necessidades, estamos em fase de validação. Analise nossos pacotes de serviço propostos e nos ajude a construir a melhor solução para você.</p>
+                </div>
+                <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+                    <div class="stat-card flex flex-col fade-in">
+                        <div class="flex-grow">
+                            <h3 class="text-2xl font-bold text-center mb-2">Vroo Check-Up</h3>
+                            <p class="text-4xl font-extrabold text-center mb-4 text-[#6FAF85]">R$ 399</p>
+                            <p class="text-center text-gray-500 mb-6">Avaliação Técnica Pontual</p>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span>Inspeção completa de um veículo específico (mecânica, elétrica, estrutura).</span></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span>Verificação detalhada da documentação.</span></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span>Relatório digital completo com fotos e laudo técnico.</span></li>
+                            </ul>
+                        </div>
+                        <button class="w-full mt-8 bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg hover:bg-gray-300">Ideal para Segurança Final</button>
+                    </div>
+                    
+                    <div class="relative stat-card border-4 border-[#6FAF85] flex flex-col fade-in shadow-2xl">
+                        <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2">
+                            <span class="bg-[#6FAF85] text-white text-xs font-bold px-4 py-1 rounded-full uppercase">Mais Popular</span>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-2xl font-bold text-center mb-2">Vroo Acompanha</h3>
+                            <p class="text-4xl font-extrabold text-center mb-4 text-[#6FAF85]">R$ 749</p>
+                            <p class="text-center text-gray-500 mb-6">Avaliação com Suporte na Negociação</p>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span>Todos os serviços do pacote <b>Check-Up</b>.</span></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span><b>Acompanhamento presencial</b> de um especialista na visita.</span></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span>Teste de rodagem junto com o especialista.</span></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span><b>Suporte na negociação de preço</b> com o vendedor.</span></li>
+                            </ul>
+                        </div>
+                        <button class="w-full mt-8 bg-[#6FAF85] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#5a9a73]">Melhor Custo-Benefício</button>
+                    </div>
+
+                    <div class="stat-card flex flex-col fade-in">
+                         <div class="flex-grow">
+                            <h3 class="text-2xl font-bold text-center mb-2">Vroo Resolve</h3>
+                            <p class="text-4xl font-extrabold text-center mb-4 text-[#6FAF85]">R$ 1.299</p>
+                            <p class="text-center text-gray-500 mb-6">Assessoria Completa de Compra</p>
+                            <ul class="space-y-3 text-gray-600">
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span>Todos os serviços do pacote <b>Acompanha</b>.</span></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span>Entrevista de perfil e necessidades.</span></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span><b>Curadoria e pré-seleção</b> de até 5 anúncios online.</span></li>
+                                <li class="flex items-start"><span class="text-green-500 mr-2 mt-1">✓</span><span>Serviço ponta-a-ponta para sua total tranquilidade.</span></li>
+                            </ul>
+                        </div>
+                        <button class="w-full mt-8 bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-lg hover:bg-gray-300">Para Máxima Comodidade</button>
                     </div>
                 </div>
             </div>
@@ -412,8 +579,9 @@
                     <h5 class="font-semibold text-lg mb-4">Navegação</h5>
                     <ul class="space-y-2">
                         <li><a href="#home" class="nav-link text-gray-400 hover:text-white">Início</a></li>
-                        <li><a href="#resumo-executivo" class="nav-link text-gray-400 hover:text-white">Resumo</a></li>
+                        <li><a href="#por-que-contratar" class="nav-link text-gray-400 hover:text-white">Por que contratar?</a></li>
                         <li><a href="#apresentacao-startup" class="nav-link text-gray-400 hover:text-white">A Startup</a></li>
+                        <li><a href="#validacao" class="nav-link text-gray-400 hover:text-white">Validação</a></li>
                         <li><a href="#apresentacao-grupo" class="nav-link text-gray-400 hover:text-white">O Grupo</a></li>
                     </ul>
                 </div>
@@ -457,6 +625,11 @@
             if (targetPage) {
                 targetPage.classList.add('active');
                 window.scrollTo(0, 0);
+                // Animar elementos na nova página
+                const elementsToAnimate = targetPage.querySelectorAll('.fade-in');
+                elementsToAnimate.forEach(el => observer.observe(el));
+                const statsToAnimate = targetPage.querySelectorAll('[data-stat]');
+                statsToAnimate.forEach(el => observer.observe(el));
             }
             closeSidebar();
         }
@@ -773,6 +946,115 @@
         
         document.querySelector('[data-tab="consultor-ai"]').addEventListener('click', startConversation, { once: true });
         
+        // --- LÓGICA DO GRÁFICO E ANIMAÇÕES ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if(entry.target.hasAttribute('data-stat')) {
+                        animateStat(entry.target);
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        function animateStat(element) {
+            const finalValue = parseFloat(element.getAttribute('data-stat'));
+            const isPercentage = element.innerText.includes('%');
+            const suffix = isPercentage ? '%' : (finalValue < 10 ? 'M' : '');
+            let startValue = 0;
+            const duration = 2000;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                let currentValue = progress * finalValue;
+                
+                if (finalValue < 10) {
+                    element.innerText = currentValue.toFixed(1) + (suffix || '');
+                } else {
+                    element.innerText = Math.floor(currentValue) + (suffix || '');
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(animation);
+                } else {
+                    if(finalValue < 10) {
+                        element.innerText = finalValue.toFixed(1) + suffix;
+                    } else {
+                        element.innerText = Math.floor(finalValue) + suffix;
+                    }
+                }
+            }
+            requestAnimationFrame(animation);
+        }
+
+        const marketChartCtx = document.getElementById('marketChart')?.getContext('2d');
+        if (marketChartCtx) {
+            new Chart(marketChartCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Dispostos a Pagar por Consultoria (TAM)', 'Valorizam Suporte, mas não pagariam', 'Não valorizam suporte técnico'],
+                    datasets: [{
+                        label: 'Tamanho do Mercado (clientes/ano)',
+                        data: [7900000, 3960000, 11740000], 
+                        backgroundColor: ['#6FAF85', '#a7d0b8', '#d4e5db'],
+                        borderColor: '#F8F7F4',
+                        borderWidth: 4,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#4a5568', padding: 20, font: { size: 12 }}},
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed !== null) {
+                                        label += new Intl.NumberFormat('pt-BR').format(context.parsed) + ' clientes/ano';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%',
+                }
+            });
+        }
+        
+        const competitorCols = document.querySelectorAll('.competitor-col');
+        competitorCols.forEach(col => {
+            col.addEventListener('click', () => {
+                const table = col.closest('#competitor-table');
+                const colIndex = Array.from(col.parentNode.children).indexOf(col);
+                if (colIndex > 0) { // Don't highlight the first column (labels)
+                    table.querySelectorAll('.competitor-col').forEach(c => {
+                        const cIndex = Array.from(c.parentNode.children).indexOf(c);
+                        if (cIndex === colIndex) {
+                            c.classList.add('active');
+                            if (cIndex === 1) { // Vroo column
+                                c.classList.remove('bg-gray-50', 'text-gray-700');
+                                c.classList.add('bg-[#6FAF85]', 'text-white');
+                            }
+                        } else {
+                            c.classList.remove('active');
+                            if (cIndex > 0) {
+                                c.classList.remove('bg-[#6FAF85]', 'text-white');
+                                c.classList.add('bg-gray-50', 'text-gray-700');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
         showPage('page-home');
     });
     </script>
